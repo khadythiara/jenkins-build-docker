@@ -1,24 +1,42 @@
-pipeline{
+pipeline {
+    agent any
 
-agent any
-def app
-stages{
-stage('clone'){
-	checkout SCM
+    stages {
+        stage('clone') {
+            steps {
+                // Cloner le dépôt Git
+                git 'https://github.com/khadythiara/jenkins-build-docker.git'
+            }
+        }
+        
+        stage('build image') {
+            steps {
+                // Construire l'image Docker
+                script {
+                    def app = docker.build("khady/ngnix")
+                }
+            }
+        }
+        
+        stage('test image') {
+            steps {
+                // Tester l'image Docker
+                script {
+                    docker.image('khady/ngnix').withRun('-p 80:80') { c ->
+                        // Vous pouvez ajouter des commandes pour tester l'image ici
+                        // Par exemple, utiliser `curl` pour vérifier que le serveur répond
+                        sh 'curl -f http://localhost:80 || exit 1'
+                    }
+                }
+            }
+        }
+    }
+    
+    post {
+        always {
+            // Nettoyage ou notifications après l'exécution du pipeline
+            echo 'Pipeline terminé.'
+        }
+    }
 }
 
-stage('build image'){ 
-        app = docker.build("khady/ngnix")
-}
-stage('test image'){ 
-        docker.image('khady/ngnix').withRun('-p 80:80') { c ->
-	sh 'docker ps'
-	sh 'curl localhost'
-
-
-}
-}
-
-}
-
-}
