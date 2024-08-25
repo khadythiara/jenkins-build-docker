@@ -1,5 +1,8 @@
-node{
+pipeline{
+
+agent any
 def app
+stages{
 stage('clone'){
 	checkout SCM
 }
@@ -16,6 +19,6 @@ stage('test image'){
 }
 }
 
-
+}
 
 }
