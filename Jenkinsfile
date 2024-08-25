@@ -34,7 +34,6 @@ pipeline {
             // Nettoyage ou notifications après l'exécution du pipeline
             echo 'Pipeline terminé.'
         }
-        
- 
+}
 }
 
