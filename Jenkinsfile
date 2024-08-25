@@ -13,7 +13,7 @@ pipeline {
             steps {
                 // Construire l'image Docker
                 script {
-                    def app = docker.build("khady/ngnix")
+                    app = docker.build("khady/ngnix")
                 }
             }
         }
