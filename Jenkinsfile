@@ -22,7 +22,7 @@ pipeline {
             steps {
                 // Tester l'image Docker
                 script {
-                    docker.image('khady/ngnix').withRun('-p 80:80') { c ->
+                    docker.image('khady/ngnix').withRun('-p 80:81') { c ->
                         // Vous pouvez ajouter des commandes pour tester l'image ici
                         // Par exemple, utiliser `curl` pour vérifier que le serveur répond
                         sh 'curl -f http://localhost:80 || exit 1'
