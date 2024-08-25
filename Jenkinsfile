@@ -21,19 +21,20 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 script {
-                    app.run("-d -p 81:80").inside {
+                    app.run("-d -p 81:81").inside {
                         sh 'curl -f http://localhost:81 || exit 1'
                     }
                 }
             }
         }
-
+}
     
     post {
         always {
             // Nettoyage ou notifications après l'exécution du pipeline
             echo 'Pipeline terminé.'
         }
-    }
+        
+ 
 }
 
