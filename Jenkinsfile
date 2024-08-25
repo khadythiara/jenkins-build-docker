@@ -2,38 +2,23 @@ pipeline {
     agent any
 
     stages {
-        stage('clone') {
+        stage('Build Docker Image') {
             steps {
-                // Cloner le dépôt Git
-                git 'https://github.com/khadythiara/jenkins-build-docker.git'
-            }
-        }
-        
-        stage('build image') {
-            steps {
-                // Construire l'image Docker
                 script {
-                    app = docker.build("khady/ngnix")
+                    // Construction de l'image Docker
+                    dockerImage = docker.build("khady/ngnix")
                 }
             }
         }
-        
+
         stage('Run Docker Container') {
             steps {
                 script {
-                    app.run("-d -p 81:81").inside {
-                        sh 'curl -f http://localhost:81 || exit 1'
-                    }
+                    // Exécution du conteneur Docker
+                    dockerImage.run("-d -p 8081:80")
                 }
             }
         }
-}
-    
-    post {
-        always {
-            // Nettoyage ou notifications après l'exécution du pipeline
-            echo 'Pipeline terminé.'
-        }
-}
+    }
 }
 
