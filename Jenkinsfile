@@ -1,4 +1,10 @@
 pipeline {
+  environment {
+    imagename = "khadydiagne/ngnix"
+    registryCredential = 'simple-java-project'
+    dockerImage = ''
+  }
+
     agent any
 
     stages {
@@ -19,6 +25,17 @@ pipeline {
                 }
             }
         }
+      stage('Deploy Image') {
+      steps{
+        script {
+          docker.withRegistry( '', registryCredential ) {
+            dockerImage.push("$BUILD_NUMBER")
+             dockerImage.push('latest')
+
+          }
+        }
+      }
+    }  
     }
 }
 
