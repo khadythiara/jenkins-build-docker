@@ -12,7 +12,7 @@ pipeline {
             steps {
                 script {
                     // Construction de l'image Docker
-                    dockerImage = docker.build("khady/ngnix")
+                    dockerImage = docker.build(imagename, ".")
                 }
             }
         }
